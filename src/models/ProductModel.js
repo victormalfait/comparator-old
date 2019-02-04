@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Promise = require('bluebird');
 
 class Product {
 
@@ -20,6 +21,20 @@ class Product {
       });
     }
 
+    findById() {
+
+    }
+
+    findAll() {
+      return new Promise((resolve, reject) => {
+        return this.productSchema.find({}, (err, products) => {
+          if (err) reject(err);
+          return resolve(products);
+        });
+      });
+
+    }
+
 }
 
-module.exports = Product;
+module.exports = new Product();
