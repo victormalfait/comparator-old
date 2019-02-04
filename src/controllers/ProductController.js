@@ -13,8 +13,9 @@ class ProductController {
   }
 
   detail(req, res) {
-    const product = {};
-    res.render('../src/views/product/detail.ejs', product);
+    ProductModel.findById(req.params.idProduct).then((product) => {
+      res.render('../src/views/product/detail.ejs', {product: product});
+    });
   }
 
   add(req, res, next) {
@@ -26,7 +27,7 @@ class ProductController {
       if (err) {
         return next(err);
       }
-      res.send('Product Created successfully');
+      res.redirect('/product');
     });
   }
 }

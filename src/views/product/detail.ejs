@@ -1,0 +1,19 @@
+<html>
+    <% include ../partials/head.ejs %>
+    <body>
+        <% include ../partials/header.ejs %>
+        <div class="container">
+            <div class="container">
+                <h1>Produits <%=product.name%></h1>
+                <div>
+                    <ul>
+                    <% product.prices.forEach((price) => { %>
+                        <li><%=price.price%>€ <strong><%=price.date%></strong></li>
+                    <% }) %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <% include ../partials/footer.ejs %>
+    </body>
+</html>

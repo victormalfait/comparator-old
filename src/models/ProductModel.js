@@ -9,7 +9,7 @@ class Product {
     constructor() {
       const ProductSchema = new Schema({
         name: {type: String, required: true, max: 100},
-        price: {type: Number, required: true},
+        prices: [{price: Number, date:{ type: Date, default: Date.now}}],
       });
       this.productSchema = mongoose.model('Product', ProductSchema);
     }
@@ -17,12 +17,17 @@ class Product {
     create({name, price}) {
       return new this.productSchema({
         name: name,
-        price: price
+        prices: [{price: price}]
       });
     }
 
-    findById() {
-
+    findById(idProduct) {
+      return new Promise((resolve, reject) => {
+        return this.productSchema.findById(idProduct, (err, product) => {
+          if (err) reject(err);
+          return resolve(product);
+        });
+      });
     }
 
     findAll() {

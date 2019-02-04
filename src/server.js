@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 //mongo connection
 let dev_db_url = 'mongodb://comparator-user:2tg77s9r@ds111065.mlab.com:11065/comparator';
 let mongoDB = process.env.MONGODB_URI || dev_db_url;
-mongoose.connect(mongoDB);
+mongoose.connect(mongoDB, {useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
