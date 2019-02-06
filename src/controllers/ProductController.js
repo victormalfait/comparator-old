@@ -30,6 +30,10 @@ class ProductController {
       res.redirect('/product');
     });
   }
+
+  modify(req, res) {
+
+  }
 }
 
 module.exports = new ProductController();

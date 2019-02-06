@@ -37,6 +37,9 @@ class Product {
           return resolve(products);
         });
       });
+    }
+
+    update({id, name, price}) {
 
     }
 
