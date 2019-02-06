@@ -1,20 +1,21 @@
-'use strict';
+"use strict";
 
-const ProductModel = require('../models/ProductModel');
+const ProductModel = require("../models/ProductModel");
 
 class ProductController {
   index(req, res, next) {
     ProductModel.findAll()
       .then((products) => {
-        res.render('../src/views/product/product.ejs', {products: products});
-    }).catch((err) => {
+        res.render("../src/views/product/product.ejs", {products: products});
+      })
+      .catch((err) => {
         return next(err);
-    });
+      });
   }
 
   detail(req, res) {
     ProductModel.findById(req.params.idProduct).then((product) => {
-      res.render('../src/views/product/detail.ejs', {product: product});
+      res.render("../src/views/product/detail.ejs", {product: product});
     });
   }
 
@@ -27,11 +28,25 @@ class ProductController {
       if (err) {
         return next(err);
       }
-      res.redirect('/product');
+      res.redirect("/product");
     });
   }
 
-  modify(req, res) {
+  addPrice(req, res, next) {
+    ProductModel.findById(req.params.idProduct).then((product) => {
+      product.prices.push({price: req.body.price});
+      ProductModel.update({
+        id: product.id,
+        name: product.name,
+        prices: product.prices
+      })
+        .then(() => {
+          res.redirect("/product/" + product.id);
+        })
+        .catch((err) => {
+          next(err);
+        });
+    });
 
   }
 }

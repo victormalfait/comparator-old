@@ -12,6 +12,12 @@
                     <% }) %>
                     </ul>
                 </div>
+                <form method="post" action="/product/addPrice/<%=product.id%>" class="form-inline">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input name="price" type="number" step="0.01" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Ajouter un prix</button>
+                </form>
             </div>
         </div>
         <% include ../partials/footer.ejs %>

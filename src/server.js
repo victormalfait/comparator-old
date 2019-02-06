@@ -5,13 +5,13 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const defaultRoute = require("./routes/DefaultRoute");
 const productRoute = require("./routes/ProductRoute");
-const config = require("../config/config");
+const config = require("./config/config");
 const app = express();
 const port = 8080;
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({
-    extended: true
+  extended: true
 }));
 app.use(bodyParser.json());
 
@@ -26,9 +26,9 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 app.use("/", defaultRoute);
 app.use("/product", productRoute);
 
-app.use((req, res, next) => {
-    res.setHeader("Content-Type", "text/html");
-    res.status(404).send("Page introuvable !");
+app.use((req, res) => {
+  res.setHeader("Content-Type", "text/html");
+  res.status(404).send("Page introuvable !");
 });
 
 app.listen(port, () => {

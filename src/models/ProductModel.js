@@ -1,47 +1,53 @@
-'use strict';
+"use strict";
 
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Promise = require('bluebird');
+const Promise = require("bluebird");
 
 class Product {
 
-    constructor() {
-      const ProductSchema = new Schema({
-        name: {type: String, required: true, max: 100},
-        prices: [{price: Number, date:{ type: Date, default: Date.now}}],
+  constructor() {
+    const ProductSchema = new Schema({
+      name: {type: String, required: true, max: 100},
+      prices: [{price: Number, date:{ type: Date, default: Date.now}}],
+    });
+    this.productSchema = mongoose.model("Product", ProductSchema);
+  }
+
+  create({name, price}) {
+    return new this.productSchema({
+      name: name,
+      prices: [{price: price}]
+    });
+  }
+
+  findById(idProduct) {
+    return new Promise((resolve, reject) => {
+      return this.productSchema.findById(idProduct, (err, product) => {
+        if (err) reject(err);
+        return resolve(product);
       });
-      this.productSchema = mongoose.model('Product', ProductSchema);
-    }
+    });
+  }
 
-    create({name, price}) {
-      return new this.productSchema({
-        name: name,
-        prices: [{price: price}]
+  findAll() {
+    return new Promise((resolve, reject) => {
+      return this.productSchema.find({}, (err, products) => {
+        if (err) reject(err);
+        return resolve(products);
       });
-    }
+    });
+  }
 
-    findById(idProduct) {
-      return new Promise((resolve, reject) => {
-        return this.productSchema.findById(idProduct, (err, product) => {
-          if (err) reject(err);
-          return resolve(product);
-        });
+  update({id, name, prices}) {
+    return new Promise((resolve, reject) => {
+      return this.productSchema.findOneAndUpdate({_id: id}, {$set: {name: name, prices: prices}}, (err) => {
+        if (err) reject(err);
+        return resolve();
       });
-    }
+    });
 
-    findAll() {
-      return new Promise((resolve, reject) => {
-        return this.productSchema.find({}, (err, products) => {
-          if (err) reject(err);
-          return resolve(products);
-        });
-      });
-    }
-
-    update({id, name, price}) {
-
-    }
+  }
 
 }
 
