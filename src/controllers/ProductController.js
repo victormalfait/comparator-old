@@ -3,36 +3,37 @@
 const ProductModel = require("../models/ProductModel");
 
 class ProductController {
-  index(req, res, next) {
+  getProudcts(req, res, next) {
     ProductModel.findAll()
       .then((products) => {
-        res.render("../src/views/product/product.ejs", {products: products});
+        res.status(200).json({products: products});
       })
       .catch((err) => {
-        return next(err);
+        res.status(500).json(err);
       });
   }
 
-  detail(req, res) {
-    ProductModel.findById(req.params.idProduct).then((product) => {
-      res.render("../src/views/product/detail.ejs", {product: product});
-    });
+  getProudct(req, res, next) {
+    ProductModel.findById(req.params.idProduct)
+      .then((product) => {
+        res.status(200).json({product: product});
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
   }
 
-  add(req, res, next) {
-    const productModelObject = ProductModel.create({
-      name: req.body.name,
-      price: req.body.price
-    });
-    productModelObject.save((err) => {
-      if (err) {
-        return next(err);
-      }
-      res.redirect("/product");
-    });
+  postProduct(req, res, next) {
+    ProductModel.add({name: req.body.name, price: req.body.price})
+      .then((product) => {
+        res.status(200).json({product: product});
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
   }
 
-  addPrice(req, res, next) {
+  updateProduct(req, res, next) {
     ProductModel.findById(req.params.idProduct).then((product) => {
       product.prices.push({price: req.body.price});
       ProductModel.update({
@@ -41,10 +42,10 @@ class ProductController {
         prices: product.prices
       })
         .then(() => {
-          res.redirect("/product/" + product.id);
+          res.status(200).json({product: product});
         })
         .catch((err) => {
-          next(err);
+          res.status(500).json(err);
         });
     });
 

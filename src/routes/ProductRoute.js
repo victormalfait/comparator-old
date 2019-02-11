@@ -3,10 +3,9 @@ const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/ProductController");
 
-router.get("/", productController.index);
-router.get("/:idProduct", productController.detail);
-router.post("/add", productController.add);
-//TODO voir pour passer en PUT
-router.post("/addPrice/:idProduct", productController.addPrice);
+router.get("/", productController.getProudcts);
+router.get("/:idProduct", productController.getProudct);
+router.post("/:idProduct", productController.postProduct);
+router.put("/:idProduct", productController.updateProduct);
 
 module.exports = router;

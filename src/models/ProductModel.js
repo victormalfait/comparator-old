@@ -10,20 +10,28 @@ class Product {
     const ProductSchema = new Schema({
       name: {type: String, required: true, max: 100},
       prices: [{price: Number, date:{ type: Date, default: Date.now}}],
+    }, {
+      versionKey: false
     });
-    this.productSchema = mongoose.model("Product", ProductSchema);
+    this.productModel = mongoose.model("Product", ProductSchema);
   }
 
-  create({name, price}) {
-    return new this.productSchema({
+  add({name, price}) {
+    const product = new this.productSchema({
       name: name,
       prices: [{price: price}]
+    });
+    return new Promise((resolve, reject) => {
+      return product.save((err, product) => {
+        if (err) reject(err);
+        return resolve(product);
+      });
     });
   }
 
   findById(idProduct) {
     return new Promise((resolve, reject) => {
-      return this.productSchema.findById(idProduct, (err, product) => {
+      return this.productModel.findById(idProduct, (err, product) => {
         if (err) reject(err);
         return resolve(product);
       });
@@ -32,7 +40,7 @@ class Product {
 
   findAll() {
     return new Promise((resolve, reject) => {
-      return this.productSchema.find({}, (err, products) => {
+      return this.productModel.find({}, (err, products) => {
         if (err) reject(err);
         return resolve(products);
       });
@@ -41,14 +49,16 @@ class Product {
 
   update({id, name, prices}) {
     return new Promise((resolve, reject) => {
-      return this.productSchema.findOneAndUpdate({_id: id}, {$set: {name: name, prices: prices}}, (err) => {
-        if (err) reject(err);
-        return resolve();
-      });
+      return this.productModel.findOneAndUpdate(
+        {_id: id},
+        {$set: {name: name, prices: prices}},
+        {new: true},
+        (err, product) => {
+          if (err) reject(err);
+          return resolve(product);
+        });
     });
-
   }
-
 }
 
 module.exports = new Product();
