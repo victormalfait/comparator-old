@@ -4,6 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const productRoute = require("./routes/ProductRoute");
+const storeRoute = require("./routes/StoreRoute");
 const config = require("./config/config");
 const app = express();
 const port = 8080;
@@ -30,6 +31,7 @@ let db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use("/product", productRoute);
+app.use("/store", storeRoute);
 
 app.use((req, res) => {
   res.setHeader("Content-Type", "text/html");

@@ -6,7 +6,8 @@ class ProductController {
   getProudcts(req, res, next) {
     ProductModel.findAll()
       .then((products) => {
-        res.status(200).json({products: products});
+        res.status(200);
+        res.json({products: products});
       })
       .catch((err) => {
         res.status(500).json(err);

@@ -10,6 +10,7 @@ class Product {
     const ProductSchema = new Schema({
       name: {type: String, required: true, max: 100},
       prices: [{price: Number, date:{ type: Date, default: Date.now}}],
+      stores:[{type: Schema.Types.ObjectId, ref: "Store"}]
     }, {
       versionKey: false
     });
@@ -17,7 +18,7 @@ class Product {
   }
 
   add({name, price}) {
-    const product = new this.productSchema({
+    const product = new this.productModel({
       name: name,
       prices: [{price: price}]
     });
