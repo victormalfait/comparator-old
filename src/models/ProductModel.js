@@ -1,7 +1,6 @@
 "use strict";
 
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const {Schema,model} = require("mongoose");
 const Promise = require("bluebird");
 
 class Product {
@@ -14,7 +13,7 @@ class Product {
     }, {
       versionKey: false
     });
-    this.productModel = mongoose.model("Product", ProductSchema);
+    this.productModel = model("Product", ProductSchema);
   }
 
   add({name, price}) {

@@ -16,6 +16,15 @@ class StoreModel {
     });
     this.storeModel = mongoose.model("Store", StoreSchema);
   }
+
+  findById(idStore) {
+    return new Promise((resolve, reject) => {
+      return this.storeModel.findById(idStore, (err, store) => {
+        if (err) reject(err);
+        return resolve(store);
+      });
+    });
+  }
 }
 
 module.exports = StoreModel;
