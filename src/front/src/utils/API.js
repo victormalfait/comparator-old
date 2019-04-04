@@ -22,5 +22,8 @@ export default {
   },
   logout : function() {
     localStorage.clear();
+  },
+  products: () => {
+    return axios.get(burl + '/product');
   }
 }
