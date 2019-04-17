@@ -48,43 +48,43 @@ export class Aside extends React.Component {
           </div>
         </div>
         <nav ui-nav="" className="navi clearfix">
-            <ul className="nav">
-              <li className="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>Navigation</span>
-              </li>
-              <li>
-                <a href="" className="auto">
-                  <span className="float-right text-muted">
-                    <i className="fa fa-fw fa-angle-right text"></i>
-                    <i className="fa fa-fw fa-angle-down text-active"></i>
-                  </span>
-                  <i className="glyphicon glyphicon-stats icon text-primary-dker"></i>
-                  <span className="font-bold">Dashboard</span>
-                </a>
-              </li>
-              <li className="line dk"></li>
-              <li className="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>Components</span>
-              </li>
-              <li className="line dk hidden-folded"></li>
-              <li className="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>Your Stuff</span>
-              </li>
-              <li>
-                <a href="page_profile.html">
-                  <i className="icon-user icon text-success-lter"></i>
-                  <b className="badge bg-success float-right">30%</b>
-                  <span>Profile</span>
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  <i className="icon-question icon"></i>
-                  <span>Documents</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <ul className="nav">
+            <li className="hidden-folded padder m-t m-b-sm text-muted text-xs">
+              <span>Navigation</span>
+            </li>
+            <li>
+              <a href="" className="auto">
+                <span className="float-right text-muted">
+                  <i className="fa fa-fw fa-angle-right text"></i>
+                  <i className="fa fa-fw fa-angle-down text-active"></i>
+                </span>
+                <i className="glyphicon glyphicon-stats icon text-primary-dker"></i>
+                <span className="font-bold">Dashboard</span>
+              </a>
+            </li>
+            <li className="line dk"></li>
+            <li className="hidden-folded padder m-t m-b-sm text-muted text-xs">
+              <span>Components</span>
+            </li>
+            <li className="line dk hidden-folded"></li>
+            <li className="hidden-folded padder m-t m-b-sm text-muted text-xs">
+              <span>Your Stuff</span>
+            </li>
+            <li>
+              <a href="page_profile.html">
+                <i className="icon-user icon text-success-lter"></i>
+                <b className="badge bg-success float-right">30%</b>
+                <span>Profile</span>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <i className="icon-question icon"></i>
+                <span>Documents</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </aside>
     )
   }
