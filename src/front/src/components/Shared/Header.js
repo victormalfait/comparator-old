@@ -1,27 +1,44 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
 
 export class Header extends React.Component {
+  constructor() {
+    super();
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+
+    this.state = {
+      show: false,
+    };
+  }
+
   reduceMenu() {
     console.log('reduce');
   }
 
-  showProfile() {
-    console.log('show profile');
+  handleClose() {
+    this.setState({ show: false });
   }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
   render(){
     return (
       <header id="header" className="app-header navbar" role="menu">
         <nav className="navbar navbar-header fixed-top navbar-dark bg-dark">
-          <a className="navbar-brand" href="/">
+          <Link className="navbar-brand" to="/">
             <i className="fas fa-euro-sign"></i>  Comparator
-          </a>
+          </Link>
         </nav>
-        <nav className="navbar fixed-top navbar-light bg-light navbar-collapse">
+        <nav className="navbar fixed-top navbar-light bg-light navbar-collapse bg-white">
           <div>
             <button onClick={this.reduceMenu} className="btn no-shadow navbar-btn float-left">
               <i className="fas fa-align-justify"></i>
             </button>
-            <button onClick={this.showProfile} className="btn no-shadow navbar-btn active float-left">
+            <button onClick={this.handleShow} className="btn no-shadow navbar-btn active float-left">
               <i className="icon-user fa-fw"></i>
             </button>
             <form className="form-inline navbar-form navbar-left shift float-left" role="search">
@@ -39,6 +56,19 @@ export class Header extends React.Component {
             </li>
           </ul>
         </nav>
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Vous n'êtes pas inscrit</Modal.Title>
+          </Modal.Header>
+          <Modal.Footer>
+            <Link to="/login">
+              <Button variant="secondary" onClick={this.handleClose}>Se connecter</Button>
+            </Link>
+            <Link to="/signup">
+              <Button variant="primary" onClick={this.handleClose} className="btn">M'inscrire</Button>
+            </Link>
+          </Modal.Footer>
+        </Modal>
       </header>
     )
   }

@@ -4,9 +4,9 @@ const express = require("express");
 const router = express.Router();
 const storeController = require("../controllers/StoreController");
 
-router.get("/", storeController.getStores);
-router.get("/:idStore", storeController.getStore);
-router.post("/", storeController.postStore);
-router.put("/:idStore", storeController.updateStore);
+router.get("/", storeController.getUsers);
+router.get("/:idStore", storeController.getUser);
+router.post("/", storeController.postUser);
+router.put("/:idStore", storeController.updateUser);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 "use strict";
 
-const {Schema,model} = require("mongoose");
+const { Schema, model } = require("mongoose");
 const Promise = require("bluebird");
 const passwordHash = require('password-hash');
 const jwt = require('jwt-simple');
@@ -9,7 +9,7 @@ const config = require('../config/config');
 class UserModel {
 
   constructor() {
-    const UserSchema =new Schema({
+    const UserSchema = new Schema({
     	email: {
     		type: String,
     		lowercase: true,
@@ -21,7 +21,11 @@ class UserModel {
         type: String,
         required: true
       }
-    },{ timestamps: { createdAt: 'created_at' }});
+    },{
+      timestamps: {
+        createdAt: 'created_at'
+      }
+    });
     this.userModel = model("User", UserSchema);
   }
 

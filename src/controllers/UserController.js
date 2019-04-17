@@ -3,10 +3,18 @@ const UserModel = require('../models/UserModel');
 const passwordHash = require("password-hash");
 
 class UserController {
+  getUsers(req, res, next) {
+    return;
+  }
+
+  getUser(req, res, next) {
+    return;
+  }
+  
   signup(req, res, next) {
     if (!req.body.email || !req.body.password) {
       res.status(400).json({
-        "text": "Requête invalide"
+        "text": "Invalid request"
       })
     } else {
       const user = {

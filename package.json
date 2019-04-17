@@ -2,7 +2,7 @@
   "name": "comprice",
   "version": "1.0.0",
   "scripts": {
-    "start" : "node src/server.js",
+    "start": "node src/server.js",
     "test": "nyc mocha ./tests/**/*.js",
     "coverage": "istanbul cover _mocha './test/**/*.js'"
   },
