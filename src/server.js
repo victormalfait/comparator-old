@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const productRoute = require("./routes/ProductRoute");
 const storeRoute = require("./routes/StoreRoute");
+const userRoute = require("./routes/UserRoute");
 const config = require("./config/config");
 const app = express();
 const port = 8080;
@@ -40,6 +41,7 @@ app.use((req, res, next) => {
 
 app.use("/product", productRoute);
 app.use("/store", storeRoute);
+app.use("/user", userRoute);
 
 app.listen(port, () => {
   console.log("Server is up and running on port numner " + port);

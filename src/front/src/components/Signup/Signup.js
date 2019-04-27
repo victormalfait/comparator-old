@@ -24,10 +24,10 @@ export class Signup extends React.Component {
       email: this.state.email,
       password: this.state.password
     }
-    API.signup(_send).then(function(data){
+    API.signup(_send).then((data) => {
       localStorage.setItem('token', data.data.token);
       window.location = "/dashboard"
-    },function(error){
+    },(error) => {
       console.log(error);
       return;
     })
@@ -39,27 +39,36 @@ export class Signup extends React.Component {
   }
   render() {
     return(
-      <div className="Login">
-        <Form.Group controlId="email" bsSize="large">
-          <Form.Label>Email</Form.Label>
-          <Form.Control autoFocus type="email" value={this.state.email} onChange={this.handleChange}/>
-        </Form.Group>
-        <Form.Group controlId="password" bsSize="large">
-          <Form.Label>Password</Form.Label>
-          <Form.Control value={this.state.password} onChange={this.handleChange} type="password"/>
-        </Form.Group>
-        <Form.Group controlId="cpassword" bsSize="large">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control value={this.state.cpassword} onChange={this.handleChange} type="password"/>
-        </Form.Group>
-        <Button
-          onClick={this.send}
-          block
-          bsSize="large"
-          type="submit"
-        >
-          Inscription
-        </Button>
+      <div className="container">
+        <div className="row justify-content-center mt-3">
+          <div className="col-10">
+            <div className="card card-default">
+              <div className="card-header font-bold">Basic form</div>
+              <div className="card-body">
+                <Form.Group controlId="email" bsSize="large">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control autoFocus type="email" value={this.state.email} onChange={this.handleChange}/>
+                </Form.Group>
+                <Form.Group controlId="password" bsSize="large">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control value={this.state.password} onChange={this.handleChange} type="password"/>
+                </Form.Group>
+                <Form.Group controlId="cpassword" bsSize="large">
+                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Control value={this.state.cpassword} onChange={this.handleChange} type="password"/>
+                </Form.Group>
+                <Button
+                  onClick={this.send}
+                  block
+                  bsSize="large"
+                  type="submit"
+                >
+                  Inscription
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
