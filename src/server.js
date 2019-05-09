@@ -21,6 +21,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/json" }));
 
+// use basic HTTP auth to secure the api
+app.use(basicAuth);
+
 //mongo connection
 // const dev_db_url =
 //   "mongodb://" +
