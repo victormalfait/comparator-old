@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export class Aside extends React.Component {
   render(){
@@ -8,14 +9,14 @@ export class Aside extends React.Component {
           <div className="aside-nav">
             <div className="clearfix text-center invisible" id="aside-user">
               <div className="dropdown wrapper">
-                <a href="#" data-toggle="dropdown" className="dropdown-toggle hidden-folded">
+                <Link to="#" data-toggle="dropdown" className="dropdown-toggle hidden-folded">
                   <span className="clear">
                     <span className="block m-t-sm">
                       <strong className="font-bold text-lt">Victor Malfait</strong>
                       <b className="caret"></b>
                     </span>
                   </span>
-                </a>
+                </Link>
                 <ul className="dropdown-menu animated fadeInRight w hidden-folded">
                   <li className="wrapper b-b m-b-sm bg-info m-t-n-xs">
                     <span className="arrow top hidden-folded arrow-info"></span>
@@ -27,20 +28,20 @@ export class Aside extends React.Component {
                     </div>
                   </li>
                   <li>
-                    <a href="">Settings</a>
+                    <Link to="#">Settings</Link>
                   </li>
                   <li>
                     <a href="page_profile.html">Profile</a>
                   </li>
                   <li>
-                    <a href="">
+                    <Link to="#">
                       <span className="badge bg-danger float-right">3</span>
                       Notifications
-                    </a>
+                    </Link>
                   </li>
                   <li className="divider"></li>
                   <li>
-                    <a href="page_signin.html">Logout</a>
+                    <Link to="/logout">Logout</Link>
                   </li>
                 </ul>
               </div>
@@ -53,14 +54,14 @@ export class Aside extends React.Component {
               <span>Navigation</span>
             </li>
             <li>
-              <a href="" className="auto">
+              <Link to="#" className="auto">
                 <span className="float-right text-muted">
                   <i className="fa fa-fw fa-angle-right text"></i>
                   <i className="fa fa-fw fa-angle-down text-active"></i>
                 </span>
                 <i className="glyphicon glyphicon-stats icon text-primary-dker"></i>
                 <span className="font-bold">Dashboard</span>
-              </a>
+              </Link>
             </li>
             <li className="line dk"></li>
             <li className="hidden-folded padder m-t m-b-sm text-muted text-xs">
@@ -71,17 +72,17 @@ export class Aside extends React.Component {
               <span>Your Stuff</span>
             </li>
             <li>
-              <a href="page_profile.html">
+              <Link to="/profile">
                 <i className="icon-user icon text-success-lter"></i>
                 <b className="badge bg-success float-right">30%</b>
                 <span>Profile</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="">
+              <Link to="#">
                 <i className="icon-question icon"></i>
                 <span>Documents</span>
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

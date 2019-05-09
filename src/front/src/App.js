@@ -4,7 +4,8 @@ import { Home } from './components/Home/Home.js';
 import { Signup } from './components/Signup/Signup.js';
 import { Header } from './components/Shared/Header.js';
 import { Aside } from './components/Shared/Aside.js';
-import { Page404 } from './components/Shared/404.js'
+import { Login } from './components/Login/Login.js';
+import { Page404 } from './components/Shared/404.js';
 import './App.css';
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route exact path ="/signup" component={Signup}/>
+                <Route exact path="/login" component={Login}/>
                 <Route component={Page404} />
               </Switch>
             </div>

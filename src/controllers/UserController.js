@@ -14,17 +14,38 @@ class UserController {
   }
 
   getUser(req, res, next) {
-    UserModel.findById({email: req.param.id})
+    UserModel.findById({id: req.param.id})
   }
 
   addUser(req, res, next) {
-    UserModel.add({email: req.body.email, password: req.body.password})
-      .then((user) => {
-        res.status(200).json({user: user});
+    if (!req.body.email || !req.body.password) {
+      return res.status(400).json({
+        "text": "Invalid request"
       })
-      .catch((error) => {
-        res.status(500).json(err);
+    } else {
+      const newUser = {
+        email: req.body.email,
+        password: passwordHash.generate(req.body.password)
+      }
+      return UserModel.findByEmail(newUser.email).then((user) => {
+        if (user) {
+          return res.status(204).json({
+            "text": "L'adresse email existe déjà"
+          });
+        } else {
+          return UserModel.add(newUser);
+        }
+      }).then((user) => {
+        return res.status(200).json({
+          "text": "Succès",
+          "token": user.getToken()
+        })
+      }).catch((err) => {
+        return res.status(500).json({
+          "text": "Erreur interne"
+        })
       });
+    }
   }
 
   updateUser(req, res, next) {
@@ -33,37 +54,6 @@ class UserController {
 
   deleteUser(req, res, next) {
     return;
-  }
-  
-  signup(req, res, next) {
-    if (!req.body.email || !req.body.password) {
-      res.status(400).json({
-        "text": "Invalid request"
-      })
-    } else {
-      const user = {
-        email: req.body.email,
-        password: passwordHash.generate(req.body.password)
-      }
-      return UserModel.findByEmail(user.email).then((user) => {
-        if (user) {
-          res.status(204).json({
-            "text": "L'adresse email existe déjà"
-          });
-        } else {
-          return UserModel.add(user);
-        }
-      }).then((user) => {
-        res.status(200).json({
-          "text": "Succès",
-          "token": user.getToken()
-        })
-      }).catch((err) => {
-        res.status(500).json({
-          "text": "Erreur interne"
-        })
-      });
-    }
   }
 
   login(req, res, next) {

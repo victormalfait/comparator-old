@@ -17,7 +17,7 @@ export default {
       }
     )
   },
-  
+
   signup : function(send){
     return axios.post(
       burl + '/user/signup',

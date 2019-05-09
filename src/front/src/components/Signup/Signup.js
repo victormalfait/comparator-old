@@ -43,24 +43,24 @@ export class Signup extends React.Component {
         <div className="row justify-content-center mt-3">
           <div className="col-10">
             <div className="card card-default">
-              <div className="card-header font-bold">Basic form</div>
+              <div className="card-header font-bold">Sign up</div>
               <div className="card-body">
-                <Form.Group controlId="email" bsSize="large">
+                <Form.Group controlId="email" size="lg">
                   <Form.Label>Email</Form.Label>
                   <Form.Control autoFocus type="email" value={this.state.email} onChange={this.handleChange}/>
                 </Form.Group>
-                <Form.Group controlId="password" bsSize="large">
+                <Form.Group controlId="password" size="lg">
                   <Form.Label>Password</Form.Label>
                   <Form.Control value={this.state.password} onChange={this.handleChange} type="password"/>
                 </Form.Group>
-                <Form.Group controlId="cpassword" bsSize="large">
+                <Form.Group controlId="cpassword" size="lg">
                   <Form.Label>Confirm Password</Form.Label>
                   <Form.Control value={this.state.cpassword} onChange={this.handleChange} type="password"/>
                 </Form.Group>
                 <Button
                   onClick={this.send}
                   block
-                  bsSize="large"
+                  size="lg"
                   type="submit"
                 >
                   Inscription

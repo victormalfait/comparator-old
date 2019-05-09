@@ -7,6 +7,8 @@ const productRoute = require("./routes/ProductRoute");
 const storeRoute = require("./routes/StoreRoute");
 const userRoute = require("./routes/UserRoute");
 const config = require("./config/config");
+const basicAuth = require('./helpers/basic-auth');
+const errorHandler = require('./helpers/error-handler');
 const app = express();
 const port = 8080;
 
@@ -18,6 +20,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/json"}));
+
+// use basic HTTP auth to secure the api
+app.use(basicAuth);
 
 //mongo connection
 let dev_db_url = "mongodb://" + config.mongoDb.user + ":" + config.mongoDb.password + "@" + config.mongoDb.host + ":"
@@ -42,6 +47,9 @@ app.use((req, res, next) => {
 app.use("/product", productRoute);
 app.use("/store", storeRoute);
 app.use("/user", userRoute);
+
+// global error handler
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log("Server is up and running on port numner " + port);

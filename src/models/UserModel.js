@@ -47,7 +47,7 @@ class UserModel {
       return this.userModel.findOne({
         email: email
       }, ((err, user) => {
-        if (err) reject(err);
+        if (err) return reject(err);
         return resolve(user);
       }));
     });
@@ -62,12 +62,14 @@ class UserModel {
     });
   }
 
-  authenticate(password) {
-		return passwordHash.verify(password, this.password);
-	}
-
-  getToken() {
-		return jwt.encode(this, config.secret);
+  authenticate(email, password) {
+    this.findByEmail(email)
+      .then((user) => {
+        return user.password === password;
+      })
+      .catch(err => {
+        return false;
+      });
 	}
 }
 
