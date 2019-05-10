@@ -4,7 +4,6 @@ import { Route, Redirect } from 'react-router-dom';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => {
-    const path = props.location.pathname;
     if (API.isAuth() === false){
       return(<Redirect to='/' />)
     }

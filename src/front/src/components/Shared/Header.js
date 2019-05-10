@@ -1,6 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
+import API from "../../utils/API"
 
 export class Header extends React.Component {
   constructor() {
@@ -9,7 +10,7 @@ export class Header extends React.Component {
     this.handleClose = this.handleClose.bind(this);
 
     this.state = {
-      show: false,
+      show: false
     };
   }
 
@@ -22,7 +23,11 @@ export class Header extends React.Component {
   }
 
   handleShow() {
-    this.setState({ show: true });
+    if (API.isAuth()) {
+      return <Redirect to="/profile/me"/>
+    } else {
+      this.setState({ show: true });
+    }
   }
 
   render(){

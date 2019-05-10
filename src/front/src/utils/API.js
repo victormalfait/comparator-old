@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'underscore';
 const headers = {
     'Content-Type': 'application/json'
 }
@@ -29,7 +30,7 @@ export default {
   },
 
   isAuth : function() {
-    return (localStorage.getItem('token') !== null);
+    return !_.isEmpty(localStorage.getItem('token'));
   },
   logout : function() {
     localStorage.clear();

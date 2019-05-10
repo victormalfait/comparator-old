@@ -3,8 +3,11 @@
 const { Schema, model } = require("mongoose");
 const Promise = require("bluebird");
 const passwordHash = require('password-hash');
-const jwt = require('jwt-simple');
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
 const config = require('../config/config');
+const privateKey = fs.readFileSync(__dirname + '/../config/private.key', 'utf-8');
+const publicKey = fs.readFileSync(__dirname + '/../config/public.key', 'utf-8');
 
 class UserModel {
 
@@ -63,14 +66,26 @@ class UserModel {
   }
 
   authenticate(email, password) {
-    this.findByEmail(email)
+    return this.findByEmail(email)
       .then((user) => {
-        return user.password === password;
+        console.log(passwordHash.verify(password, user.password));
+        return passwordHash.verify(password, user.password);
       })
       .catch(err => {
-        return false;
+        return err;
       });
 	}
+
+  getToken(email, password) {
+    const payload = {
+      email: email,
+      password: password
+    }
+    const options = {
+      expiresIn: "6h"
+    }
+    return jwt.sign(payload, privateKey, options);
+  }
 }
 
 module.exports = new UserModel();

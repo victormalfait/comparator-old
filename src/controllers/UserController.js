@@ -14,7 +14,7 @@ class UserController {
   }
 
   getUser(req, res, next) {
-    UserModel.findById({id: req.param.id})
+    UserModel.findById({id: req.param.id});
   }
 
   addUser(req, res, next) {
@@ -38,7 +38,7 @@ class UserController {
       }).then((user) => {
         return res.status(200).json({
           "text": "Succès",
-          "token": user.getToken()
+          "token": UserModel.getToken()
         })
       }).catch((err) => {
         return res.status(500).json({
@@ -60,26 +60,20 @@ class UserController {
     if (!req.body.email || !req.body.password) {
       res.status(400).json({
         "text": "Requête invalide"
-      })
+      });
     } else {
-      return User.findByEmail(req.body.email)
-      .then((user) => {
-        if(!user){
-          res.status(401).json({
-            "text": "L'utilisateur n'existe pas"
-          })
-        }
-        if (User.authenticate(req.body.password)) {
+      return UserModel.authenticate(req.body.email, req.body.password)
+        .then(() => {
           res.status(200).json({
             "token": User.getToken(),
             "text": "Authentification réussi"
-          })
-        } else {
+          });
+        })
+        .catch((err) => {
           res.status(401).json({
             "text": "Mot de passe incorrect"
-          })
-        }
-      });
+          });
+        });
     }
   }
 }
