@@ -21,9 +21,10 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/json"}));
 
 //mongo connection
-let dev_db_url = "mongodb://" + config.mongoDb.user + ":" + config.mongoDb.password + "@" + config.mongoDb.host + ":"
-  + config.mongoDb.port + "/" + config.mongoDb.database;
-let mongoDB = process.env.MONGODB_URI || dev_db_url;
+//const dev_db_url = "mongodb://" + config.mongoDb.user + ":" + config.mongoDb.password + "@" + config.mongoDb.host + ":"
+  //+ config.mongoDb.port + "/" + config.mongoDb.database;
+const dev_db_url = "mongodb://" + config.mongoDb.host + ":" + config.mongoDb.port + "/" + config.mongoDb.database;
+const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 mongoose.connect(mongoDB, options);
 mongoose.Promise = global.Promise;

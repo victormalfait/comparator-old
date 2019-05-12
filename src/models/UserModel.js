@@ -23,6 +23,15 @@ class UserModel {
     	password: {
         type: String,
         required: true
+      },
+      name: {
+    	  type: String
+      },
+      firstname: {
+    	  type: String
+      },
+      age: {
+    	  type: Date
       }
     },{
       timestamps: {
@@ -32,10 +41,13 @@ class UserModel {
     this.userModel = model("User", UserSchema);
   }
 
-  add({email, password}) {
+  add({email, password, name, firstname, age}) {
     const user = new this.userModel({
       email: email,
-      password: passwordHash.generate(password)
+      password: passwordHash.generate(password),
+      name: name,
+      firstname: firstname,
+      age : age
     });
     return new Promise((resolve, reject) => {
       return user.save((err, user) => {
@@ -68,7 +80,6 @@ class UserModel {
   authenticate(email, password) {
     return this.findByEmail(email)
       .then((user) => {
-        console.log(passwordHash.verify(password, user.password));
         return passwordHash.verify(password, user.password);
       })
       .catch(err => {
@@ -76,14 +87,14 @@ class UserModel {
       });
 	}
 
-  getToken(email, password) {
+  static getToken(email, password) {
     const payload = {
       email: email,
       password: password
-    }
+    };
     const options = {
       expiresIn: "6h"
-    }
+    };
     return jwt.sign(payload, privateKey, options);
   }
 }

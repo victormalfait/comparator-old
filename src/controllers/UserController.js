@@ -25,8 +25,11 @@ class UserController {
     } else {
       const newUser = {
         email: req.body.email,
-        password: passwordHash.generate(req.body.password)
-      }
+        password: passwordHash.generate(req.body.password),
+        name: req.body.name,
+        firstname: req.body.firstname,
+        age: req.body.age
+      };
       return UserModel.findByEmail(newUser.email).then((user) => {
         if (user) {
           return res.status(204).json({
@@ -38,11 +41,11 @@ class UserController {
       }).then((user) => {
         return res.status(200).json({
           "text": "Succès",
-          "token": UserModel.getToken()
+          "token": UserModel.getToken(user.email, user.password)
         })
       }).catch((err) => {
         return res.status(500).json({
-          "text": "Erreur interne"
+          "text": "Erreur interne: " + err
         })
       });
     }
@@ -65,13 +68,13 @@ class UserController {
       return UserModel.authenticate(req.body.email, req.body.password)
         .then(() => {
           res.status(200).json({
-            "token": User.getToken(),
+            "token": UserModel.getToken(req.body.email, req.body.password),
             "text": "Authentification réussi"
           });
         })
         .catch((err) => {
           res.status(401).json({
-            "text": "Mot de passe incorrect"
+            "text": "Mot de passe incorrect " + err
           });
         });
     }
