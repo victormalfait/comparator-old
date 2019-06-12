@@ -2,10 +2,8 @@
 
 const { Schema, model } = require("mongoose");
 const Promise = require("bluebird");
-const passwordHash = require("password-hash");
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const fs = require("fs");
-const config = require("../config/config");
 const privateKey = fs.readFileSync(
   __dirname + "/../config/private.key",
   "utf-8"
@@ -49,17 +47,27 @@ class UserModel {
   add({ email, password, name, firstname, age }) {
     const user = new this.userModel({
       email: email,
-      password: passwordHash.generate(password),
+      password: password,
       name: name,
       firstname: firstname,
       age: age
     });
     return new Promise((resolve, reject) => {
-      return user.save((err, user) => {
-        if (err) reject(err);
-        return resolve(user);
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(user.password, salt, (err, hash) => {
+          if (err) throw err;
+          user.password = hash;
+          return user.save((err, user) => {
+            if (err) reject(err);
+            return resolve(user);
+          });
+        });
       });
     });
+  }
+
+  findById(id) {
+    return this.userModel.findById(id);
   }
 
   findByEmail(email) {
@@ -88,22 +96,13 @@ class UserModel {
   authenticate(email, password) {
     return this.findByEmail(email)
       .then(user => {
-        return passwordHash.verify(password, user.password);
+        return bcrypt.compare(password, user.password).then(isMatch => {
+          return { user: user, isMatch: isMatch };
+        });
       })
       .catch(err => {
         return err;
       });
-  }
-
-  static getToken(email, password) {
-    const payload = {
-      email: email,
-      password: password
-    };
-    const options = {
-      expiresIn: "6h"
-    };
-    return jwt.sign(payload, privateKey, options);
   }
 }
 

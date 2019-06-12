@@ -1,30 +1,26 @@
-import React from 'react';
-import { Button } from "react-bootstrap";
+import React, { Component } from "react";
 
-import API from '../../utils/API';
+import API from "../../utils/API";
 
-export class Dashboard extends React.Component {
-  constructor(props){
+class Dashboard extends Component {
+  constructor(props) {
     super(props);
     this.disconnect.bind(this);
   }
   disconnect = event => {
     API.logout();
     window.location = "/";
-  }
+  };
   render() {
-    return(
+    return (
       <div className="Dashboard">
         <h1>Dashboard</h1>
-        <Button
-        onClick={this.disconnect}
-        block
-        bsSize="large"
-        type="submit"
-        >
-        Se déconnecter
-        </Button>
+        <button onClick={this.disconnect} block bsSize="large" type="submit">
+          Se déconnecter
+        </button>
       </div>
-    )
+    );
   }
 }
+
+export default Dashboard;

@@ -1,8 +1,12 @@
-import React from "react";
-import { Button, Form } from "react-bootstrap";
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
 import API from "../../utils/API";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { registerUser } from "../../redux/actions/authActions";
+import classnames from "classnames";
 
-export class Signup extends React.Component {
+class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,6 +21,14 @@ export class Signup extends React.Component {
     this.send.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
+
   onSubmit = e => {
     e.preventDefault();
     const newUser = {
@@ -26,32 +38,7 @@ export class Signup extends React.Component {
       password2: this.state.password2
     };
     console.log(newUser);
-  };
-
-  send = event => {
-    if (this.state.email.length === 0) {
-      return;
-    }
-    if (
-      this.state.password.length === 0 ||
-      this.state.password !== this.state.cpassword
-    ) {
-      return;
-    }
-    const _send = {
-      email: this.state.email,
-      password: this.state.password
-    };
-    API.signup(_send).then(
-      data => {
-        localStorage.setItem("token", data.data.token);
-        window.location = "/dashboard";
-      },
-      error => {
-        console.log(error);
-        return;
-      }
-    );
+    this.props.registerUser(newUser, this.props.history);
   };
 
   handleChange = event => {
@@ -70,62 +57,70 @@ export class Signup extends React.Component {
             <div className="card card-default">
               <div className="card-header font-bold">Sign up</div>
               <div className="card-body">
-                <Form noValidate onSubmit={this.onSubmit}>
-                  <Form.Group controlId="email" size="lg">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      autoFocus
+                <form noValidate onSubmit={this.onSubmit}>
+                  <div class="input-field">
+                    <label for="email">Email</label>
+                    <input
                       type="email"
+                      id="email"
                       value={this.state.email}
                       onChange={this.handleChange}
+                      error={errors.email}
+                      className={classnames("", {
+                        invalid: errors.email
+                      })}
                     />
-                  </Form.Group>
-                  <Form.Group controlId="password" size="lg">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
+                    <span className="red-text">{errors.email}</span>
+                  </div>
+                  <div class="input-field">
+                    <label for="password">Password</label>
+                    <input
+                      id="password"
+                      error={errors.password}
                       value={this.state.password}
                       onChange={this.handleChange}
                       type="password"
+                      className={classnames("", {
+                        invalid: errors.password
+                      })}
                     />
-                  </Form.Group>
-                  <Form.Group controlId="cpassword" size="lg">
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control
+                  </div>
+                  <div class="input-field">
+                    <label for="">Confirm Password</label>
+                    <input
                       value={this.state.cpassword}
                       onChange={this.handleChange}
                       type="password"
                     />
-                  </Form.Group>
-                  <Form.Row>
-                    <Form.Group as="Col" controlId="name" size="lg">
-                      <Form.Label>Name</Form.Label>
-                      <Form.Control
-                        value={this.state.name}
-                        onChange={this.handleChange}
-                        type="text"
-                      />
-                    </Form.Group>
-                    <Form.Group as="{Col}" controlId="firstname" size="lg">
-                      <Form.Label>Firstname</Form.Label>
-                      <Form.Control
-                        value={this.state.firstname}
-                        onChange={this.handleChange}
-                        type="text"
-                      />
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Group controlId="age" size="lg">
-                    <Form.Label>Age</Form.Label>
-                    <Form.Control
+                  </div>
+                  <div class="input-field">
+                    <label for="">Name</label>
+                    <input
+                      value={this.state.name}
+                      onChange={this.handleChange}
+                      type="text"
+                    />
+                  </div>
+                  <div class="input-field">
+                    <label for="">Firstname</label>
+                    <input
+                      value={this.state.firstname}
+                      onChange={this.handleChange}
+                      type="text"
+                    />
+                  </div>
+                  <div class="input-field">
+                    <label for="">Age</label>
+                    <input
                       value={this.state.age}
                       onChange={this.handleChange}
                       as="select"
                     />
-                  </Form.Group>
-                  <Button onClick={this.send} block size="lg" type="submit">
+                  </div>
+                  <button onClick={this.send} block size="lg" type="submit">
                     Inscription
-                  </Button>
-                </Form>
+                  </button>
+                </form>
               </div>
             </div>
           </div>
@@ -134,3 +129,19 @@ export class Signup extends React.Component {
     );
   }
 }
+
+Signup.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(withRouter(Signup));

@@ -1,9 +1,9 @@
-import React from 'react';
-import API from '../../utils/API';
-import { ProductCart } from '../Product/ProductCart.js';
+import React from "react";
+import API from "../../utils/API";
+import ProductCart from "../Product/ProductCart.js";
 
-export class Home extends React.Component {
-  constructor(props){
+class Home extends React.Component {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -12,18 +12,18 @@ export class Home extends React.Component {
   }
 
   componentDidMount() {
-    API.products().then((data) => {
-      this.setState({products: data.data.products});
+    API.products().then(data => {
+      this.setState({ products: data.data.products });
     });
   }
 
   createProductCart(product, index) {
-    return <ProductCart product={product} key={index} />
+    return <ProductCart product={product} key={index} />;
   }
 
   render() {
     const { products } = this.state;
-    return(
+    return (
       <div>
         <ul className="list-unstyled">
           {products.map((product, index) =>
@@ -34,3 +34,5 @@ export class Home extends React.Component {
     );
   }
 }
+
+export default Home;

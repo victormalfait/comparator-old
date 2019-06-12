@@ -1,6 +1,8 @@
 "use strict";
-const UserModel = require('../models/UserModel');
-const passwordHash = require("password-hash");
+
+const jwt = require("jsonwebtoken");
+const UserModel = require("../models/UserModel");
+const config = require("../config/config");
 
 class UserController {
   getUsers(req, res, next) {
@@ -14,40 +16,42 @@ class UserController {
   }
 
   getUser(req, res, next) {
-    UserModel.findById({id: req.param.id});
+    UserModel.findById({ id: req.param.id });
   }
 
   addUser(req, res, next) {
     if (!req.body.email || !req.body.password) {
       return res.status(400).json({
-        "text": "Invalid request"
-      })
+        text: "Invalid request"
+      });
     } else {
       const newUser = {
         email: req.body.email,
-        password: passwordHash.generate(req.body.password),
+        password: req.body.password,
         name: req.body.name,
         firstname: req.body.firstname,
         age: req.body.age
       };
-      return UserModel.findByEmail(newUser.email).then((user) => {
-        if (user) {
-          return res.status(204).json({
-            "text": "L'adresse email existe déjà"
+      return UserModel.findByEmail(newUser.email)
+        .then(user => {
+          if (user) {
+            return res.status(409).json({
+              text: "L'adresse email existe déjà"
+            });
+          } else {
+            return UserModel.add(newUser);
+          }
+        })
+        .then(user => {
+          return res.status(200).json({
+            text: "Succès"
           });
-        } else {
-          return UserModel.add(newUser);
-        }
-      }).then((user) => {
-        return res.status(200).json({
-          "text": "Succès",
-          "token": UserModel.getToken(user.email, user.password)
         })
-      }).catch((err) => {
-        return res.status(500).json({
-          "text": "Erreur interne: " + err
-        })
-      });
+        .catch(err => {
+          return res.status(500).json({
+            text: "Erreur interne: " + err
+          });
+        });
     }
   }
 
@@ -62,19 +66,39 @@ class UserController {
   login(req, res, next) {
     if (!req.body.email || !req.body.password) {
       res.status(400).json({
-        "text": "Requête invalide"
+        text: "Requête invalide"
       });
     } else {
       return UserModel.authenticate(req.body.email, req.body.password)
-        .then(() => {
-          res.status(200).json({
-            "token": UserModel.getToken(req.body.email, req.body.password),
-            "text": "Authentification réussi"
-          });
+        .then(({ user, isMatch }) => {
+          if (isMatch) {
+            const payload = {
+              id: user.id,
+              name: user.name
+            };
+            return jwt.sign(
+              payload,
+              config.secret,
+              {
+                expiresIn: 86400 // 1 day in seconds
+              },
+              (err, token) => {
+                res.status(200).json({
+                  success: true,
+                  token: "Bearer " + token
+                });
+              }
+            );
+          } else {
+            res.status(403).json({
+              success: false,
+              message: "Password incorrect"
+            });
+          }
         })
-        .catch((err) => {
+        .catch(err => {
           res.status(401).json({
-            "text": "Mot de passe incorrect " + err
+            text: "Mot de passe incorrect " + err
           });
         });
     }

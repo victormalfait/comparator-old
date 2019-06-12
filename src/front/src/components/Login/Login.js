@@ -1,67 +1,110 @@
-import React from 'react';
-import { Button, Form } from "react-bootstrap";
-import API from '../../utils/API';
+import React from "react";
+import API from "../../utils/API";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/authActions";
+import classnames from "classnames";
 
-export class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email : "",
+      email: "",
       password: ""
-    }
+    };
     this.handleChange.bind(this);
     this.send.bind(this);
   }
-  send = event => {
-    if (this.state.email.length === 0) {
-      return;
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard"); // push user to dashboard when they login
     }
-    if (this.state.password.length === 0) {
-      return;
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
     }
-    API.login(this.state.email, this.state.password)
-      .then(function(data){
-        localStorage.setItem('token', data.data.token);
-        window.location = "/dashboard"
-      },function(error){
-        console.log(error);
-        return;
-      })
   }
+
+  onSubmit = e => {
+    e.preventDefault();
+    const userData = {
+      email: this.state.email,
+      password: this.state.password
+    };
+    this.props.loginUser(userData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
+  };
+
   handleChange = event => {
     this.setState({
       [event.target.id]: event.target.value
     });
-  }
+  };
   render() {
-    return(
+    return (
       <div className="container">
         <div className="row justify-content-center mt-3">
           <div className="col-10">
             <div className="card card-default">
               <div className="card-header font-bold">Sign in</div>
               <div className="card-body">
-                <Form.Group controlId="email" size="lg">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control autoFocus type="email" value={this.state.email} onChange={this.handleChange}/>
-                </Form.Group>
-                <Form.Group controlId="password" size="lg">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control value={this.state.password} onChange={this.handleChange} type="password"/>
-                </Form.Group>
-                <Button
-                onClick={this.send}
-                block
-                size="lg"
-                type="submit"
-                >
-                Connexion
-                </Button>
+                <div controlId="email" size="lg">
+                  <label for="email">Email</label>
+                  <input
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    error={errors.email}
+                    id="email"
+                    type="email"
+                    className={classnames("", {
+                      invalid: errors.email || errors.emailnotfound
+                    })}
+                  />
+                  <span className="red-text">
+                    {errors.email}
+                    {errors.emailnotfound}
+                  </span>
+                </div>
+                <div controlId="password" size="lg">
+                  <label for="password">Password</label>
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.password}
+                    error={errors.password}
+                    id="password"
+                    type="password"
+                    className={classnames("", {
+                      invalid: errors.password || errors.passwordincorrect
+                    })}
+                  />
+                  <span className="red-text">
+                    {errors.password}
+                    {errors.passwordincorrect}
+                  </span>
+                </div>
+                <button onClick={this.send} block size="lg" type="submit">
+                  Connexion
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
+
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);

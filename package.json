@@ -2,10 +2,10 @@
   "name": "comprice",
   "version": "1.0.0",
   "scripts": {
-    "client-install": "npm install --prefix client",
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": "npm start --prefix client",
+    "client-install": "npm install --prefix src/front",
+    "start": "node src/server.js",
+    "server": "nodemon src/server.js",
+    "client": "npm start --prefix src/front",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "nyc mocha ./tests/**/*.js",
     "coverage": "istanbul cover _mocha './test/**/*.js'"
