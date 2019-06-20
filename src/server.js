@@ -22,24 +22,24 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/json" }));
 
 //mongo connection
-const dev_db_url =
-  "mongodb://" +
-  config.mongoDb.user +
-  ":" +
-  config.mongoDb.password +
-  "@" +
-  config.mongoDb.host +
-  ":" +
-  config.mongoDb.port +
-  "/" +
-  config.mongoDb.database;
 // const dev_db_url =
 //   "mongodb://" +
+//   config.mongoDb.user +
+//   ":" +
+//   config.mongoDb.password +
+//   "@" +
 //   config.mongoDb.host +
 //   ":" +
 //   config.mongoDb.port +
 //   "/" +
 //   config.mongoDb.database;
+const dev_db_url =
+  "mongodb://" +
+  config.mongoDb.host +
+  ":" +
+  config.mongoDb.port +
+  "/" +
+  config.mongoDb.database;
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 mongoose.connect(
@@ -65,11 +65,10 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
   next();
 });
-
+app.use("/product", productRoute);
 app.use(passport.initialize());
 require("./passport")(passport);
 
-app.use("/product", productRoute);
 app.use("/store", storeRoute);
 app.use("/user", userRoute);
 

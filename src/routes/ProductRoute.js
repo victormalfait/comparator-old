@@ -2,11 +2,19 @@
 const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/ProductController");
-const basicAuth = require('../helpers/basic-auth');
+const passport = require("passport");
 
 router.get("/", productController.getProudcts);
 router.get("/:idProduct", productController.getProudct);
-router.post("/", basicAuth, productController.postProduct);
-router.put("/:idProduct", basicAuth, productController.updateProduct);
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  productController.postProduct
+);
+router.put(
+  "/:idProduct",
+  passport.authenticate("jwt", { session: false }),
+  productController.updateProduct
+);
 
 module.exports = router;
