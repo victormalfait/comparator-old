@@ -48,17 +48,19 @@ function LoginForm(props) {
   });
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    if (props.auth.isAuthenticated) {
-      console.log(props);
-      props.history.push("/dashboard"); // push user to dashboard when they login
-    }
-    if (props.errors) {
-      setErrors({
-        errors: props.errors
-      });
-    }
-  });
+  useEffect(
+    () => {
+      if (props.auth.isAuthenticated) {
+        props.history.push("/dashboard"); // push user to dashboard when they login
+      }
+      if (props.errors) {
+        setErrors({
+          errors: props.errors
+        });
+      }
+    },
+    [props.errors, props.auth, props.history]
+  );
 
   const onSubmit = e => {
     e.preventDefault();
@@ -92,9 +94,9 @@ function LoginForm(props) {
             label="Email Address"
             name="email"
             autoComplete="email"
-            autoFocus
             value={values.email}
             onChange={handleChange}
+            error={errors.email}
           />
           <TextField
             variant="outlined"

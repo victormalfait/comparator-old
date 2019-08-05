@@ -1,5 +1,4 @@
 import React from "react";
-import API from "../../utils/API";
 import ProductCart from "../Product/ProductCart.js";
 
 class Home extends React.Component {
@@ -9,12 +8,6 @@ class Home extends React.Component {
     this.state = {
       products: []
     };
-  }
-
-  componentDidMount() {
-    API.products().then(data => {
-      this.setState({ products: data.data.products });
-    });
   }
 
   createProductCart(product, index) {

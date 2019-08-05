@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, TextField, Button, Grid } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
@@ -25,6 +25,16 @@ function SignupForm(props) {
   });
 
   const [errors, setErrors] = useState({});
+  useEffect(
+    () => {
+      if (props.errors) {
+        setErrors({
+          errors: props.errors
+        });
+      }
+    },
+    [props.errors]
+  );
   const handleChange = event => {
     setValues({
       ...values,
@@ -122,7 +132,7 @@ function SignupForm(props) {
             />
           </Grid>
         </Grid>
-        <Button type="submit" fullWidth variant="contained" color="black">
+        <Button type="submit" fullWidth variant="contained" color="primary">
           Sign Up
         </Button>
       </Container>
