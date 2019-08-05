@@ -1,17 +1,22 @@
 {
+  "proxy": "http://localhost:8080",
   "name": "front",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.1.1",
+    "@material-ui/icons": "^4.2.0",
     "axios": "^0.18.0",
-    "bootstrap": "^4.3.1",
-    "jquery": "^1.9.1",
-    "react": "^16.8.4",
-    "react-bootstrap": "^1.0.0-beta.6",
-    "react-dom": "^16.8.4",
-    "react-router": "^4.3.1",
+    "classnames": "^2.2.6",
+    "jwt-decode": "^2.2.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^5.1.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.8"
+    "react-scripts": "^3.0.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "underscore": "^1.9.1"
   },
   "scripts": {
     "start": "react-scripts start",

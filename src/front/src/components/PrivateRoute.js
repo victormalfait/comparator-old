@@ -1,15 +1,27 @@
-import React from 'react';
-import API from '../utils/API.js';
-import { Route, Redirect } from 'react-router-dom';
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-export const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={(props) => {
-    var path = props.location.pathname;
-    if(API.isAuth()===false){
-      return(<Redirect to='/' />)
+const PrivateRoute = ({ component: Component, auth, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      auth.isAuthenticated === true ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
+      )
     }
-    else{
-      return( <Component {...props} /> )
-    }
-  }} />
-)
+  />
+);
+
+PrivateRoute.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(PrivateRoute);

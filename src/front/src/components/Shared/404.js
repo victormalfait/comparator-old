@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export class Page404 extends React.Component
-{
+class Page404 extends React.Component {
   render() {
     return (
       <div className="container">
@@ -16,10 +15,11 @@ export class Page404 extends React.Component
               </div>
               <div className="error-actions">
                 <Link to="/" className="btn btn-primary btn-lg">
-                  <span className="glyphicon glyphicon-home"></span>Take Me Home
+                  <span className="glyphicon glyphicon-home" />Take Me Home
                 </Link>
                 <Link to="/contact" className="btn btn-default btn-lg">
-                  <span className="glyphicon glyphicon-envelope"></span> Contact Support
+                  <span className="glyphicon glyphicon-envelope" /> Contact
+                  Support
                 </Link>
               </div>
             </div>
@@ -29,3 +29,5 @@ export class Page404 extends React.Component
     );
   }
 }
+
+export default Page404;
