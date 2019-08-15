@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../redux/actions/authActions";
 import ProductCart from "../Product/ProductCart.js";
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +15,7 @@ class Dashboard extends Component {
   }
   componentDidMount() {
     axios.get("/products").then(products => {
-      this.state.products = products.data.products;
+      this.setState({ products: products.data.products });
     });
   }
 
@@ -25,10 +26,9 @@ class Dashboard extends Component {
 
   render() {
     const { user } = this.props.auth;
-    const { products } = this.state;
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
-        {products.map((product, index) => (
+        {this.state.products.map((product, index) => (
           <ProductCart product={product} key={index} />
         ))}
         <button

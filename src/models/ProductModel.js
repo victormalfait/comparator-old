@@ -4,22 +4,29 @@ const { Schema, model } = require("mongoose");
 const Promise = require("bluebird");
 
 class Product {
-
   constructor() {
-    const ProductSchema = new Schema({
-      name: {type: String, required: true, max: 100},
-      prices: [{price: Number, date:{ type: Date, default: Date.now}}],
-      stores:[{type: Schema.Types.ObjectId, ref: "Store"}]
-    }, {
-      versionKey: false
-    });
+    const ProductSchema = new Schema(
+      {
+        name: { type: String, required: true, max: 100 },
+        prices: [
+          {
+            price: Number,
+            date: { type: Date, default: Date.now },
+            store: { type: Schema.Types.ObjectId, ref: "Store" }
+          }
+        ]
+      },
+      {
+        versionKey: false
+      }
+    );
     this.productModel = model("Product", ProductSchema);
   }
 
-  add({name, price}) {
+  add({ name, price, store }) {
     const product = new this.productModel({
       name: name,
-      prices: [{price: price}]
+      prices: [{ price: price, store: store }]
     });
     return new Promise((resolve, reject) => {
       return product.save((err, product) => {
@@ -47,16 +54,17 @@ class Product {
     });
   }
 
-  update({id, name, prices}) {
+  update({ id, name, prices }) {
     return new Promise((resolve, reject) => {
       return this.productModel.findOneAndUpdate(
-        {_id: id},
-        {$set: {name: name, prices: prices}},
-        {new: true},
+        { _id: id },
+        { $set: { name: name, prices: prices } },
+        { new: true },
         (err, product) => {
           if (err) reject(err);
           return resolve(product);
-        });
+        }
+      );
     });
   }
 }
