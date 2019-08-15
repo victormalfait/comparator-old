@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { connect } from "react-redux";
+import { BrowserRouter as Router, withRouter } from "react-router-dom";
 import Layout from "./components/Shared/Layout";
 import { Provider } from "react-redux";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -8,6 +9,7 @@ import "./App.css";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./redux/actions/authActions";
+import PropTypes from "prop-types";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -42,4 +44,13 @@ class App extends Component {
     );
   }
 }
-export default App;
+
+App.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(App);

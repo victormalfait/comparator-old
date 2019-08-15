@@ -5,51 +5,54 @@ const ProductModel = require("../models/ProductModel");
 class ProductController {
   getProudcts(req, res, next) {
     ProductModel.findAll()
-      .then((products) => {
+      .then(products => {
         res.status(200);
-        res.json({products: products});
+        res.json({ products: products });
       })
-      .catch((err) => {
+      .catch(err => {
         res.status(500).json(err);
       });
   }
 
   getProudct(req, res, next) {
     ProductModel.findById(req.params.idProduct)
-      .then((product) => {
-        res.status(200).json({product: product});
+      .then(product => {
+        res.status(200).json({ product: product });
       })
-      .catch((err) => {
+      .catch(err => {
         res.status(500).json(err);
       });
   }
 
   postProduct(req, res, next) {
-    ProductModel.add({name: req.body.name, price: req.body.price})
-      .then((product) => {
-        res.status(200).json({product: product});
+    ProductModel.add({
+      name: req.body.name,
+      price: req.body.price,
+      store: req.body.store
+    })
+      .then(product => {
+        res.status(200).json({ product: product });
       })
-      .catch((err) => {
+      .catch(err => {
         res.status(500).json(err);
       });
   }
 
   updateProduct(req, res, next) {
-    ProductModel.findById(req.params.idProduct).then((product) => {
-      product.prices.push({price: req.body.price});
+    ProductModel.findById(req.params.idProduct).then(product => {
+      product.prices.push({ price: req.body.price });
       ProductModel.update({
         id: product.id,
         name: product.name,
         prices: product.prices
       })
         .then(() => {
-          res.status(200).json({product: product});
+          res.status(200).json({ product: product });
         })
-        .catch((err) => {
+        .catch(err => {
           res.status(500).json(err);
         });
     });
-
   }
 }
 

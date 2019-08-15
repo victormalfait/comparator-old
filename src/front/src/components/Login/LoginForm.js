@@ -48,19 +48,16 @@ function LoginForm(props) {
   });
   const [errors, setErrors] = useState({});
 
-  useEffect(
-    () => {
-      if (props.auth.isAuthenticated) {
-        props.history.push("/dashboard"); // push user to dashboard when they login
-      }
-      if (props.errors) {
-        setErrors({
-          errors: props.errors
-        });
-      }
-    },
-    [props.errors, props.auth, props.history]
-  );
+  useEffect(() => {
+    if (props.auth.isAuthenticated) {
+      props.history.push("/dashboard"); // push user to dashboard when they login
+    }
+    if (props.errors) {
+      setErrors({
+        errors: props.errors
+      });
+    }
+  }, [props.errors, props.auth, props.history]);
 
   const onSubmit = e => {
     e.preventDefault();
