@@ -3,6 +3,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ProductCart from "../Product/ProductCart.js";
+import { Grid, Button } from "@material-ui/core";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -21,11 +22,16 @@ class Dashboard extends Component {
   render() {
     const { user } = this.props.auth;
     return (
-      <div style={{ height: "75vh" }} className="container valign-wrapper">
+      <Grid container spacing={2}>
         {this.state.products.map((product, index) => (
           <ProductCart product={product} key={index} />
         ))}
-      </div>
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary" href="/product/add">
+            Add Product
+          </Button>
+        </Grid>
+      </Grid>
     );
   }
 }

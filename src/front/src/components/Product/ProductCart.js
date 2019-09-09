@@ -24,7 +24,7 @@ export default function ProductCart(props) {
   const classes = useStyles();
   console.log(props);
   return (
-    <Grid>
+    <Grid item xs={3}>
       <Card className={classes.card}>
         <CardActionArea>
           <CardMedia

@@ -23,6 +23,7 @@ import PrivateRoute from "../PrivateRoute";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import ProductForm from "../Product/ProductForm";
 
 const drawerWidth = 240;
 
@@ -175,6 +176,7 @@ export default function Layout(props) {
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/product/add" component={ProductForm} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <Route component={Page404} />
           </Switch>
