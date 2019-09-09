@@ -10,24 +10,19 @@ import {
   Typography,
   Divider,
   IconButton,
-  Badge,
-  ListItem,
-  ListItemIcon,
-  ListItemText
+  Badge
 } from "@material-ui/core";
 
 import Home from "../Home/Home";
 import Signup from "../Signup/Signup";
 import Login from "../Login/Login";
 import Page404 from "../Shared/404";
+import MenuItem from "../Shared/MenuItem";
 import Dashboard from "../Dashboard/Dashboard";
 import PrivateRoute from "../PrivateRoute";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import AccountIcon from "@material-ui/icons/AccountBox";
-import SettingsIcon from "@material-ui/icons/Settings";
 
 const drawerWidth = 240;
 
@@ -111,7 +106,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Layout() {
+export default function Layout(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -170,27 +165,7 @@ export default function Layout() {
         </div>
         <Divider />
         <List>
-          <ListItem button key={"account"}>
-            <ListItemIcon>
-              <AccountIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Victor Malfait"} />
-          </ListItem>
-          <ListItem button key={"Dashboard"}>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Dashboard"} />
-          </ListItem>
-          <ListItem button key={"Settings"}>
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Settings"} />
-          </ListItem>
-          <ListItem button key={"profile"}>
-            <ListItemText primary={"Profile"} />
-          </ListItem>
+          <MenuItem />
         </List>
       </Drawer>
       <main className={classes.content}>
