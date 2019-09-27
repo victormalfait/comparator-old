@@ -11,9 +11,9 @@ function MenuItem(props) {
   const [connected, setConnected] = useState(false);
   useEffect(() => {
     if (props.auth.isAuthenticated) {
-      setConnected({ connected: true });
+      setConnected(true);
     } else {
-      setConnected({ connected: false });
+      setConnected(false);
     }
   }, [props.auth]);
 
