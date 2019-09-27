@@ -9,6 +9,8 @@ class StoreModel {
     const StoreSchema = new Schema({
       name: { type: String, required: true },
       address: { type: String, required: true },
+      city: { type: String, required: true },
+      zip_code: { type: Number, required: true },
       localisation: {
         lat: { type: Number },
         lng: { type: Number }
@@ -17,10 +19,12 @@ class StoreModel {
     this.storeModel = mongoose.model("Store", StoreSchema);
   }
 
-  add({ name, address, lat, lng }) {
+  add({ name, address, city, zip_code, lat, lng }) {
     const store = new this.storeModel({
       name: name,
       address: address,
+      city: city,
+      zip_code: zip_code,
       localisation: {
         lat: lat,
         lng: lng
@@ -52,7 +56,7 @@ class StoreModel {
     });
   }
 
-  update({ id, name, address, lat, lng }) {
+  update({ id, name, address, city, zip_code, lat, lng }) {
     return new Promise((resolve, reject) => {
       return this.storeModel.findOneAndUpdate(
         { _id: id },
@@ -60,6 +64,8 @@ class StoreModel {
           $set: {
             name: name,
             address: address,
+            city: city,
+            zip_code: zip_code,
             localisation: { lat: lat, lng: lng }
           }
         },

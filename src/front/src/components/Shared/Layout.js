@@ -24,6 +24,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ProductForm from "../Product/ProductForm";
+import StoreList from "../Store/StoreList";
+import StoreForm from "../Store/StoreForm";
 
 const drawerWidth = 240;
 
@@ -90,7 +92,14 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     height: "100vh",
-    overflow: "auto"
+    overflow: "auto",
+    width: "auto",
+    marginTop: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    background: "white",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -177,6 +186,8 @@ export default function Layout(props) {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/product/add" component={ProductForm} />
+            <Route exact path="/stores" component={StoreList} />
+            <Route exact path="/stores/add" component={StoreForm} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <Route component={Page404} />
           </Switch>
