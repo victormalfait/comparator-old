@@ -9,6 +9,8 @@ import {
   Select,
   MenuItem
 } from "@material-ui/core";
+import ButtonAutocompletePlaces from "../Map/ButtonAutocompletePlaces";
+import Map from "../Map/MapContainer";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,7 +18,6 @@ const useStyles = makeStyles(theme => ({
     flexWrap: "wrap"
   },
   formControl: {
-    margin: theme.spacing(1),
     minWidth: 120
   },
   selectEmpty: {
@@ -28,9 +29,16 @@ export default function StoreForm() {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     store: {
-      compagny: ""
+      name: "",
+      company: ""
     }
   });
+  const companies = [
+    { id: 1, name: "Carrefour" },
+    { id: 2, name: "Franprix" },
+    { id: 3, name: "Monoprix" },
+    { id: 4, name: "Casino" }
+  ];
 
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);
@@ -49,60 +57,72 @@ export default function StoreForm() {
     <React.Fragment>
       <form className={classes.root} autoComplete="off">
         <Grid container spacing={3}>
-          <Grid item xs={3}>
-            <TextField
-              variant="outlined"
-              id="name"
-              label="Store name"
-              name="name"
-              fullWidth
-            />
-          </Grid>
-          <Grid container spacing={3}>
-            <FormControl variant="outlined" className={classes.formControl}>
-              <InputLabel ref={inputLabel} htmlFor="outlined-age-simple">
-                Store Compagny
-              </InputLabel>
-              <Select
-                value={values.store.compagny}
-                labelWidth={labelWidth}
-                inputProps={{
-                  name: "Store Compagny",
-                  id: "outlined-age-simple"
-                }}
+          <Grid container direction="column" xs={6}>
+            <Grid item xs>
+              <TextField
+                variant="outlined"
+                id="name"
+                label="Store name"
+                name="name"
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
                 fullWidth
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
+                <InputLabel ref={inputLabel} htmlFor="outlined-age-simple">
+                  Store Company
+                </InputLabel>
+                <Select
+                  value={values.store.compagny}
+                  onChange={handleChange}
+                  labelWidth={labelWidth}
+                  inputProps={{
+                    name: "Store Company",
+                    id: "outlined-age-simple"
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {companies.map(company => (
+                    <MenuItem value={company.id}>{company.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs>
+              <TextField
+                variant="outlined"
+                id="address"
+                label="Address"
+                name="address"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs>
+              <TextField
+                variant="outlined"
+                id="zip_code"
+                label="Zip Code"
+                name="zip_code"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs>
+              <Button variant="contained" color="primary" fullWidth>
+                Add
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={3}>
-            <TextField
-              variant="outlined"
-              id="address"
-              label="Address"
-              name="address"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              variant="outlined"
-              id="zip_code"
-              label="Zip Code"
-              name="zip_code"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Button variant="contained" color="primary" fullWidth>
-              Add
-            </Button>
+          <Grid container direction="column" xs={6}>
+            <Grid item xs>
+              <Map />
+            </Grid>
           </Grid>
         </Grid>
       </form>
