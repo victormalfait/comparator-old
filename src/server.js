@@ -65,11 +65,11 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
   next();
 });
-app.use("/product", productRoute);
+app.use("/products", productRoute);
 app.use(passport.initialize());
 require("./passport")(passport);
 
-app.use("/store", storeRoute);
+app.use("/stores", storeRoute);
 app.use("/user", userRoute);
 
 // global error handler

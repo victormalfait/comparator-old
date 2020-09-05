@@ -8,7 +8,7 @@ router.get("/", productController.getProudcts);
 router.get("/:idProduct", productController.getProudct);
 router.post(
   "/",
-  passport.authenticate("jwt", { session: false }),
+  //passport.authenticate("jwt", { session: false }),
   productController.postProduct
 );
 router.put(

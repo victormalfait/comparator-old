@@ -1,51 +1,57 @@
 import React, { Component } from "react";
+import axios from "axios";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logoutUser } from "../../redux/actions/authActions";
+import ProductCart from "../Product/ProductCart.js";
+import { Grid, Button } from "@material-ui/core";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+
 class Dashboard extends Component {
-  onLogoutClick = e => {
-    e.preventDefault();
-    this.props.logoutUser();
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      products: []
+    };
+  }
+  componentDidMount() {
+    axios.get("/products").then(products => {
+      this.setState({ products: products.data.products });
+    });
+  }
+
   render() {
     const { user } = this.props.auth;
     return (
-      <div style={{ height: "75vh" }} className="container valign-wrapper">
-        <div className="row">
-          <div className="col s12 center-align">
-            <h4>
-              <b>Hey there,</b> {user.name.split(" ")[0]}
-              <p className="flow-text grey-text text-darken-1">
-                You are logged into a full-stack{" "}
-                <span style={{ fontFamily: "monospace" }}>MERN</span> app 👏
-              </p>
-            </h4>
-            <button
-              style={{
-                width: "150px",
-                borderRadius: "3px",
-                letterSpacing: "1.5px",
-                marginTop: "1rem"
-              }}
-              onClick={this.onLogoutClick}
-              className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </div>
+      <Grid container spacing={3}>
+        {this.state.products.map((product, index) => (
+          <ProductCart product={product} key={index} />
+        ))}
+        <Grid item xs={12} sm={3}>
+          <Button variant="contained" color="primary" href="/product/add">
+            Add Product
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <Button variant="contained" color="primary" href="/stores/add">
+            Add Store
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={3}>
+          <Button variant="contained" color="primary" href="/stores">
+            See All Stores
+          </Button>
+        </Grid>
+      </Grid>
     );
   }
 }
+
 Dashboard.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  products: state.products
 });
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(Dashboard);
+export default connect(mapStateToProps)(Dashboard);

@@ -1,12 +1,15 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import {
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+  Grid
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
   card: {
@@ -17,38 +20,33 @@ const useStyles = makeStyles({
   }
 });
 
-class ProductCart extends React.Component {
-  render() {
-    const classes = useStyles();
-    return (
+export default function ProductCart(props) {
+  const classes = useStyles();
+  console.log(props);
+  return (
+    <Grid item xs={3}>
       <Card className={classes.card}>
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="Contemplative Reptile"
+            image="/static/img/product/evian1L.jpeg"
+            title={props.product.name}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              Lizard
+              {props.product.name}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
+              test
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
           <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
+            See product
           </Button>
         </CardActions>
       </Card>
-    );
-  }
+    </Grid>
+  );
 }
-
-export default ProductCart;

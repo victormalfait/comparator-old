@@ -84,9 +84,9 @@ class UserModel {
     });
   }
 
-  findAll() {
+  find() {
     return new Promise((resolve, reject) => {
-      return this.userModel.findAll({}, (err, users) => {
+      return this.userModel.find({}, (err, users) => {
         if (err) reject(err);
         return resolve(users);
       });
